@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben & Peggy Wedding</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap');
+
+        :root {
+            --milk-tea-dark: #D4B895;
+            --milk-tea-light: #E8D0B3;
+            --text-main: #4a4a4a;
+            --bg-light: #FAFAF8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Serif TC', 'Cormorant Garamond', serif;
+            color: var(--text-main);
+            background-color: var(--bg-light);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .no-wrap {
+            white-space: nowrap;
+        }
+
+        /* 導覽列 */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(250, 250, 248, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            z-index: 1000;
+            box-shadow: 0 1px 10px rgba(0,0,0,0.03);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--milk-tea-dark);
+            font-weight: 600;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #b59570;
+        }
+
+        /* 首頁全螢幕封面 */
+        header {
+            height: 100vh;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://i.postimg.cc/fykTFTDw/IMG-4776.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 70px;
+        }
+
+        .slogan {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            letter-spacing: 1.5px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+        }
+
+        .names {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+        }
+
+        /* 區塊通用 */
+        section {
+            padding: 5rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h2.section-title {
+            text-align: center;
+            color: var(--milk-tea-dark);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            letter-spacing: 3px;
+        }
+
+        /* V-Card 婚禮詳情 */
+        .v-card {
+            border: 1px solid var(--milk-tea-dark);
+            padding: 3rem 2rem;
+            text-align: center;
+            background: white;
+            box-shadow: 0 10px 30px rgba(212, 184, 149, 0.1);
+            position: relative;
+        }
+
+        .v-card::before, .v-card::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--milk-tea-dark);
+        }
+        .v-card::before { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+        .v-card::after { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+        .v-card-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            color: var(--milk-tea-dark);
+            margin-bottom: 1rem;
+        }
+
+        .v-card-detail {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .dress-code {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 2rem;
+        }
+
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* 計時器 */
+        .countdown-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .countdown-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 120px;
+        }
+
+        .countdown-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: var(--milk-tea-dark);
+            font-weight: 600;
+        }
+
+        .countdown-divider {
+            width: 1px;
+            height: 35px;
+            background-color: var(--milk-tea-light);
+        }
+
+        .countdown-unit {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1rem;
+            color: var(--text-main);
+            letter-spacing: 1px;
+        }
+
+        /* 摺疊面板 (交通指引) */
+        details {
+            background: white;
+            border: 1px solid var(--milk-tea-light);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        summary {
+            padding: 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--milk-tea-dark);
+            letter-spacing: 1.5px;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--milk-tea-dark);
+            transition: transform 0.3s;
+        }
+
+        details[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        .details-content {
+            padding: 0 1.5rem 1.5rem;
+            line-height: 2;
+        }
+
+        /* 表單設計 */
+        .form-group {
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-bottom: 1px solid var(--milk-tea-light);
+            background: transparent;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1rem;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-bottom: 1px solid var(--milk-tea-dark);
+        }
+
+        button.submit-btn {
+            background-color: var(--milk-tea-dark);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 3rem auto 0;
+        }
+
+        button.submit-btn:hover {
+            background-color: #b59570;
+        }
+
+        #conditional-fields {
+            display: none;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px dashed var(--milk-tea-light);
+        }
+        
+        #success-msg {
+            display: none;
+            text-align: center;
+            color: #5B6E41;
+            margin-top: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* 手機版優化 */
+        @media (max-width: 768px) {
+            .names { font-size: 2.5rem; }
+            .slogan { font-size: 1.2rem; }
+            .countdown-wrapper { gap: 1rem; }
+            .countdown-card { padding: 0.8rem 1rem; min-width: 100px; }
+            .countdown-number { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#about">關於我們</a>
+        <a href="#details">婚禮詳情</a>
+        <a href="#rsvp">出席回函</a>
+    </nav>
+
+    <header id="about">
+        <div class="slogan">
+            How long will I love you?<br>
+            As long as stars are above you.
+        </div>
+        <div class="names">Ben & Peggy</div>
+    </header>
+
+    <section id="details">
+        <h2 class="section-title">WEDDING DETAILS</h2>
+        <div class="v-card">
+            <div class="v-card-date">2026 . 11 . 20</div>
+            <div class="v-card-detail">結婚典禮暨晚宴</div>
+            <div class="v-card-detail">Venue：<span class="no-wrap">台中市役所</span></div>
+            
+            <p style="margin-top: 2rem; font-size: 0.9rem; color: #888;">Dress Code</p>
+            <div class="dress-code">
+                <div class="color-swatch" style="background-color: #5B6E41" title="綠"></div>
+                <div class="color-swatch" style="background-color: #E3D5C8" title="奶茶"></div>
+                <div class="color-swatch" style="background-color: #722F37" title="酒紅"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="countdown">
+        <h2 class="section-title">COUNTDOWN</h2>
+        <div class="countdown-wrapper" id="timer">
+            <!-- JS 動態生成 -->
+        </div>
+    </section>
+
+    <section id="traffic">
+        <h2 class="section-title">TRANSPORTATION</h2>
+        <details>
+            <summary>交通與大眾運輸指引</summary>
+            <div class="details-content">
+                <p><strong>搭乘台鐵：</strong>請至 <span class="no-wrap">台中火車站</span> 下車，出站後步行約 15 分鐘，或轉乘市區公車至周邊站牌即可抵達 <span class="no-wrap">台中市役所</span>。</p>
+                <p><strong>自行開車：</strong>導航請設定 <span class="no-wrap">台中市西區民權路97號</span>，會場周邊設有收費停車場可供使用。</p>
+            </div>
+        </details>
+    </section>
+
+    <section id="rsvp">
+        <h2 class="section-title">RSVP</h2>
+        
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){document.getElementById('rsvp-form').style.display='none'; document.getElementById('success-msg').style.display='block';}"></iframe>
+        
+        <form action="https://docs.google.com/forms/d/e/1FAIpQLSczk3WoZTLYhaRSNJ8JdteqUgbWbCOgROrgLZrguOnvz13-qw/formResponse" method="post" target="hidden_iframe" onsubmit="submitted=true;" id="rsvp-form">
+            
+            <div class="form-group">
+                <label>姓名 NAME</label>
+                <input type="text" name="entry.1460003203" required>
+            </div>
+
+            <div class="form-group">
+                <label>聯絡信箱 EMAIL</label>
+                <input type="text" name="entry.2080952699" required>
+            </div>
+
+            <div class="form-group">
+                <label>出席身分 IDENTITY</label>
+                <select name="entry.1736609708" required>
+                    <option value="" disabled selected>請選擇</option>
+                    <option value="男方親友">男方親友</option>
+                    <option value="女方親友">女方親友</option>
+                    <option value="共同好友">共同好友</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>參加午宴人數 ATTENDEES</label>
+                <input type="number" name="entry.1660950523" id="attendees" min="0" required>
+            </div>
+
+            <div id="conditional-fields">
+                <div class="form-group">
+                    <label>飲食需求 DIETARY</label>
+                    <select name="entry.267374631">
+                        <option value="" disabled selected>請選擇</option>
+                        <option value="葷食">葷食</option>
+                        <option value="素食">素食</option>
+                        <option value="不需用餐">不需用餐</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>兒童椅需求 BABY CHAIR</label>
+                    <select name="entry.26716003">
+                        <option value="" disabled selected>請選擇</option>
+                        <option value="需要">需要</option>
+                        <option value="不需要">不需要</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>祝福與想說的話 MESSAGE</label>
+                <textarea name="entry.493798467" rows="3"></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">送出回函 SUBMIT</button>
+        </form>
+        <div id="success-msg">感謝您的回覆！期待與您一同見證我們的喜悅。</div>
+    </section>
+
+    <script>
+        // 表單提交狀態
+        var submitted = false;
+
+        // 智能表單邏輯：參加人數 > 0 顯示飲食及兒童椅需求
+        const attendeesInput = document.getElementById('attendees');
+        const conditionalFields = document.getElementById('conditional-fields');
+        
+        attendeesInput.addEventListener('input', function() {
+            const count = parseInt(this.value);
+            if (count > 0) {
+                conditionalFields.style.display = 'block';
+            } else {
+                conditionalFields.style.display = 'none';
+                // 清空選項
+                document.querySelector('select[name="entry.267374631"]').selectedIndex = 0;
+                document.querySelector('select[name="entry.26716003"]').selectedIndex = 0;
+            }
+        });
+
+        // 倒數計時器邏輯
+        const weddingDate = new Date('2026-11-20T12:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            const timerHtml = `
+                <div class="countdown-card">
+                    <div class="countdown-number">${days < 0 ? 0 : days}</div>
+                    <div class="countdown-divider"></div>
+                    <div class="countdown-unit">天</div>
+                </div>
+                <div class="countdown-card">
+                    <div class="countdown-number">${hours < 0 ? 0 : hours}</div>
+                    <div class="countdown-divider"></div>
+                    <div class="countdown-unit">時</div>
+                </div>
+                <div class="countdown-card">
+                    <div class="countdown-number">${minutes < 0 ? 0 : minutes}</div>
+                    <div class="countdown-divider"></div>
+                    <div class="countdown-unit">分</div>
+                </div>
+                <div class="countdown-card">
+                    <div class="countdown-number">${seconds < 0 ? 0 : seconds}</div>
+                    <div class="countdown-divider"></div>
+                    <div class="countdown-unit">秒</div>
+                </div>
+            `;
+            
+            document.getElementById('timer').innerHTML = timerHtml;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // 初始化
+    </script>
+</body>
+</html>
