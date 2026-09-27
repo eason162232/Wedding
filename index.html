@@ -539,12 +539,14 @@
 
             <div class="form-group">
                 <label>參加迎賓活動人數 (提供餐飲) WELCOME PARTY</label>
-                <input type="number" name="entry.887916538" id="welcome-attendees" min="0" placeholder="若不參加請填寫 0" required>
+                <!-- 修正為正確的迎賓人數 ID -->
+                <input type="number" name="entry.1660950523" id="welcome-attendees" min="0" placeholder="若不參加請填寫 0" required>
             </div>
 
             <div class="form-group">
                 <label>參加晚宴人數 BANQUET ATTENDEES</label>
-                <input type="number" name="entry.1660950523" id="banquet-attendees" min="0" placeholder="若不參加請填寫 0" required>
+                <!-- 修正為正確的晚宴人數 ID -->
+                <input type="number" name="entry.887916538" id="banquet-attendees" min="0" placeholder="若不參加請填寫 0" required>
             </div>
 
             <div id="conditional-fields">
@@ -552,12 +554,12 @@
                     <label>是否需要兒童椅？ BABY CHAIR</label>
                     <input type="number" name="entry.26716003" min="0" placeholder="若不需要請填寫 0">
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label>是否有任何食物過敏或吃素？ DIETARY NOTES</label>
-                <!-- 將對接 ID 更換為正確的 493798467 -->
-                <textarea name="entry.493798467" rows="3" placeholder="若無可填寫「無」，或註明：不吃牛、海鮮過敏等..."></textarea>
+                
+                <div class="form-group">
+                    <label>是否有任何食物過敏或吃素？ DIETARY NOTES</label>
+                    <!-- 修正為正確的飲食需求 ID -->
+                    <textarea name="entry.267374631" rows="3" placeholder="若無可填寫「無」，或註明：不吃牛、海鮮過敏等..."></textarea>
+                </div>
             </div>
 
             <button type="submit" class="submit-btn">送出邀請函 SUBMIT</button>
