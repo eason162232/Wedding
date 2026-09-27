@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ben & Peggy Wedding</title>
+    
+    <!-- 優先預載入封面高畫質原圖，避免載入初期模糊 -->
+    <link rel="preload" as="image" href="https://i.postimg.cc/8k3dpLKp/389-RV2-6448.jpg">
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap');
 
@@ -20,14 +24,27 @@
             padding: 0;
         }
 
+        html {
+            background-color: #EFEBE4; /* 電腦版外圍背景色：淡雅奶茶色 */
+            scroll-behavior: smooth; /* 加入平滑滾動效果 */
+            scroll-padding-top: 70px; /* 預留上方導航列高度，避免區塊標題被遮擋 */
+        }
+
         body {
             font-family: 'Noto Serif TC', 'Cormorant Garamond', serif;
             color: var(--text-main);
             background-color: var(--bg-light);
             line-height: 1.8;
             overflow-x: hidden;
+            /* 改回精緻直立式卡片寬度，保護直式照片不被裁切 */
+            max-width: 540px; 
+            margin: 0 auto;
+            box-shadow: 0 0 40px rgba(0,0,0,0.06);
+            position: relative;
+            min-height: 100vh;
         }
 
+        /* 防止手機版破字/斷行跑版的實用類別 */
         .no-wrap {
             white-space: nowrap;
         }
@@ -37,6 +54,10 @@
             position: fixed;
             top: 0;
             width: 100%;
+            max-width: 540px;
+            margin: 0 auto;
+            left: 0;
+            right: 0; /* 配合 fixed 屬性置中 */
             height: 70px;
             background: rgba(250, 250, 248, 0.7);
             backdrop-filter: blur(12px);
@@ -64,9 +85,13 @@
         /* 首頁全螢幕封面 */
         header {
             height: 100vh;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://i.postimg.cc/fykTFTDw/IMG-4776.jpg');
+            height: 100dvh; /* 採用動態視口高度，避免手機瀏覽器網址列遮擋 */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://i.postimg.cc/8k3dpLKp/389-RV2-6448.jpg');
             background-size: cover;
-            background-position: center;
+            background-position: center 20%; /* 重心稍微上移，確保直向圖片的人像頭部在各尺寸都不被裁切 */
+            background-repeat: no-repeat;
+            image-rendering: high-quality; /* 強制瀏覽器使用高畫質演算法渲染縮放圖片 */
+            -webkit-image-rendering: high-quality;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -87,15 +112,31 @@
 
         .names {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 3.5rem;
+            font-size: 5rem; /* 縮小一點，更精緻 */
             font-weight: 600;
-            letter-spacing: 4px;
+            letter-spacing: 0px; /* 將整體的字母間距縮短至自然狀態 */
+        }
+
+        /* 針對特定大寫字母拉近與下一個小寫字母的間距 */
+        .tight-kerning {
+            letter-spacing: -2px; /* 拉近與下一個字母的距離 */
+            margin-right: -2px;   /* 微調視覺重心 */
+            display: inline-block;
+        }
+
+        .header-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            margin-top: 1.5rem;
+            letter-spacing: 6px;
+            font-weight: 400;
+            text-shadow: 1px 1px 8px rgba(0,0,0,0.4);
         }
 
         /* 區塊通用 */
         section {
             padding: 5rem 2rem;
-            max-width: 900px;
+            max-width: 540px;
             margin: 0 auto;
         }
 
@@ -108,7 +149,24 @@
             letter-spacing: 3px;
         }
 
+        .main-date {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: var(--milk-tea-dark);
+            margin-top: -1.5rem;
+            margin-bottom: 2.5rem;
+            letter-spacing: 4px;
+            font-weight: 600;
+        }
+
         /* V-Card 婚禮詳情 */
+        .v-card-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
         .v-card {
             border: 1px solid var(--milk-tea-dark);
             padding: 3rem 2rem;
@@ -130,22 +188,38 @@
 
         .v-card-date {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             color: var(--milk-tea-dark);
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .v-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            color: #888;
         }
 
         .v-card-detail {
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
             letter-spacing: 2px;
+            font-weight: 600;
+        }
+        
+        .v-card-address {
+            font-size: 0.85rem;
+            color: #777;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
         }
 
         .dress-code {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
 
         .color-swatch {
@@ -234,6 +308,25 @@
         .details-content {
             padding: 0 1.5rem 1.5rem;
             line-height: 2;
+            font-size: 0.95rem;
+        }
+        
+        .traffic-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed var(--milk-tea-light);
+        }
+        .traffic-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .traffic-subtitle {
+            color: #888;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
         }
 
         /* 表單設計 */
@@ -307,11 +400,15 @@
 
         /* 手機版優化 */
         @media (max-width: 768px) {
-            .names { font-size: 2.5rem; }
+            .names { font-size: 3.8rem; }
             .slogan { font-size: 1.2rem; }
+            .header-date { font-size: 1.3rem; margin-top: 1rem; letter-spacing: 4px; }
+            .main-date { font-size: 2rem; margin-bottom: 1.5rem; }
             .countdown-wrapper { gap: 1rem; }
             .countdown-card { padding: 0.8rem 1rem; min-width: 100px; }
             .countdown-number { font-size: 2rem; }
+            .v-card { padding: 2rem 1.5rem; }
+            .v-card-date { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -320,7 +417,7 @@
     <nav>
         <a href="#about">關於我們</a>
         <a href="#details">婚禮詳情</a>
-        <a href="#rsvp">出席回函</a>
+        <a href="#rsvp">邀請函</a>
     </nav>
 
     <header id="about">
@@ -328,21 +425,46 @@
             How long will I love you?<br>
             As long as stars are above you.
         </div>
-        <div class="names">Ben & Peggy</div>
+        <div class="names"><span class="tight-kerning">B</span>en & <span class="tight-kerning">P</span>eggy</div>
+        <div class="header-date">2026 . 11 . 20</div>
     </header>
 
     <section id="details">
         <h2 class="section-title">WEDDING DETAILS</h2>
-        <div class="v-card">
-            <div class="v-card-date">2026 . 11 . 20</div>
-            <div class="v-card-detail">結婚典禮暨晚宴</div>
-            <div class="v-card-detail">Venue：<span class="no-wrap">台中市役所</span></div>
-            
-            <p style="margin-top: 2rem; font-size: 0.9rem; color: #888;">Dress Code</p>
-            <div class="dress-code">
-                <div class="color-swatch" style="background-color: #5B6E41" title="綠"></div>
-                <div class="color-swatch" style="background-color: #E3D5C8" title="奶茶"></div>
-                <div class="color-swatch" style="background-color: #722F37" title="酒紅"></div>
+        <div class="v-card-container">
+            <!-- Welcome Party 迎賓派對卡片 -->
+            <div class="v-card">
+                <div class="v-card-title">Welcome Party 迎賓派對</div>
+                <div class="v-card-date">12 : 00</div>
+                <div class="v-card-detail">Venue：<span class="no-wrap">台中向上基督長老教會</span></div>
+                <div class="v-card-address no-wrap">台中市西區向上路一段27號</div>
+            </div>
+
+            <!-- 證婚儀式卡片 -->
+            <div class="v-card">
+                <div class="v-card-title">Ceremony 證婚儀式</div>
+                <div class="v-card-date">14 : 00</div>
+                <div class="v-card-detail">Venue：<span class="no-wrap">台中向上基督長老教會</span></div>
+                <div class="v-card-address no-wrap">台中市西區向上路一段27號</div>
+            </div>
+
+            <!-- 結婚晚宴卡片 -->
+            <div class="v-card">
+                <div class="v-card-title">Banquet 結婚晚宴</div>
+                <div class="v-card-date" style="line-height: 1.6;">
+                    17 : 00 <span style="font-size: 1rem; font-family: 'Noto Serif TC', serif; color: #888;">開放入場</span><br>
+                    18 : 00 <span style="font-size: 1rem; font-family: 'Noto Serif TC', serif; color: #888;">宴會開始</span>
+                </div>
+                <div class="v-card-detail">Venue：<span class="no-wrap">台中市役所</span></div>
+                <div class="v-card-address no-wrap">台中市西區民權路97號</div>
+                
+                <p style="margin-top: 2rem; font-size: 0.9rem; color: #888;">Dress Code</p>
+                <div class="dress-code">
+                    <div class="color-swatch" style="background-color: #d6b39a" title="奶茶"></div>
+                    <div class="color-swatch" style="background-color: #5a1228" title="深酒紅"></div>
+                    <div class="color-swatch" style="background-color: #5c4033" title="深咖啡"></div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.85rem; color: #777; letter-spacing: 1px;">無需壓力，黑白經典或您最自在的正式服裝即可</p>
             </div>
         </div>
     </section>
@@ -356,17 +478,40 @@
 
     <section id="traffic">
         <h2 class="section-title">TRANSPORTATION</h2>
+        
         <details>
-            <summary>交通與大眾運輸指引</summary>
+            <summary>搭乘大眾運輸工具 Transit</summary>
             <div class="details-content">
-                <p><strong>搭乘台鐵：</strong>請至 <span class="no-wrap">台中火車站</span> 下車，出站後步行約 15 分鐘，或轉乘市區公車至周邊站牌即可抵達 <span class="no-wrap">台中市役所</span>。</p>
-                <p><strong>自行開車：</strong>導航請設定 <span class="no-wrap">台中市西區民權路97號</span>，會場周邊設有收費停車場可供使用。</p>
+                <div class="traffic-section">
+                    <div class="traffic-subtitle">1. 證婚｜台中向上基督長老教會</div>
+                    <p><strong>高鐵抵達：</strong>搭乘捷運綠線至 <span class="no-wrap">「文心森林公園」站</span>，轉乘 73 路公車至 <span class="no-wrap">「向上民生路口」站</span> 下車，步行 3 分鐘；或於高鐵站搭乘 159 路快捷公車至 <span class="no-wrap">「科學博物館」站</span>，步行 10 分鐘。</p>
+                    <p><strong>台鐵抵達：</strong>至 <span class="no-wrap">「台中車站」</span> 轉搭 27、290 路公車至 <span class="no-wrap">「向上民生路口」站</span> 下車，步行 3 分鐘。</p>
+                </div>
+                <div class="traffic-section">
+                    <div class="traffic-subtitle">2. 晚宴｜台中市役所</div>
+                    <p><strong>高鐵抵達：</strong>轉乘台鐵區間車至 <span class="no-wrap">「台中車站」</span>，出站後直行步行約 12 分鐘。</p>
+                    <p><strong>台鐵抵達：</strong>至 <span class="no-wrap">「台中車站」</span> 步行約 12 分鐘；或轉搭 323、324 路公車至 <span class="no-wrap">「台中州廳」站</span> 下車，步行 2 分鐘。</p>
+                </div>
+            </div>
+        </details>
+
+        <details>
+            <summary>自行開車指引 Driving & Parking</summary>
+            <div class="details-content">
+                <div class="traffic-section">
+                    <div class="traffic-subtitle">1. 證婚｜台中向上基督長老教會</div>
+                    <p>教會內部提供免費停車位。若車位滿載不夠，可就近至附近的停車場或 <span class="no-wrap">草悟廣場停車場</span> 停車（地址：<span class="no-wrap">台中市西區英才路534號</span>，步行約 5 分鐘即可抵達教會。）</p>
+                </div>
+                <div class="traffic-section">
+                    <div class="traffic-subtitle">2. 晚宴｜台中市役所</div>
+                    <p>市役所會場無提供專屬停車位。建議可尋找附近的路邊停車格，或至 <span class="no-wrap">city parking 城市車旅停車場 (市府路站)</span> 停車（地址：<span class="no-wrap">台中市西區市府路45號</span>），停妥後步行前往即可。</p>
+                </div>
             </div>
         </details>
     </section>
 
     <section id="rsvp">
-        <h2 class="section-title">RSVP</h2>
+        <h2 class="section-title">INVITATION</h2>
         
         <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){document.getElementById('rsvp-form').style.display='none'; document.getElementById('success-msg').style.display='block';}"></iframe>
         
@@ -393,60 +538,71 @@
             </div>
 
             <div class="form-group">
-                <label>參加午宴人數 ATTENDEES</label>
-                <input type="number" name="entry.1660950523" id="attendees" min="0" required>
+                <label>參加迎賓活動人數 (提供餐飲) WELCOME PARTY</label>
+                <input type="number" name="entry.WELCOME_PARTY_ID" id="welcome-attendees" min="0" placeholder="若不參加請填寫 0" required>
+            </div>
+
+            <div class="form-group">
+                <label>參加晚宴人數 BANQUET ATTENDEES</label>
+                <input type="number" name="entry.1660950523" id="banquet-attendees" min="0" placeholder="若不參加請填寫 0" required>
             </div>
 
             <div id="conditional-fields">
                 <div class="form-group">
-                    <label>飲食需求 DIETARY</label>
-                    <select name="entry.267374631">
-                        <option value="" disabled selected>請選擇</option>
-                        <option value="葷食">葷食</option>
-                        <option value="素食">素食</option>
-                        <option value="不需用餐">不需用餐</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>兒童椅需求 BABY CHAIR</label>
-                    <select name="entry.26716003">
-                        <option value="" disabled selected>請選擇</option>
-                        <option value="需要">需要</option>
-                        <option value="不需要">不需要</option>
-                    </select>
+                    <label>是否需要兒童椅？ BABY CHAIR</label>
+                    <input type="number" name="entry.26716003" min="0" placeholder="若不需要請填寫 0">
                 </div>
             </div>
 
             <div class="form-group">
-                <label>祝福與想說的話 MESSAGE</label>
-                <textarea name="entry.493798467" rows="3"></textarea>
+                <label>是否有任何食物過敏或吃素？ DIETARY NOTES</label>
+                <textarea name="entry.493798467" rows="3" placeholder="若無可填寫「無」，或註明：不吃牛、海鮮過敏等..."></textarea>
             </div>
 
-            <button type="submit" class="submit-btn">送出回函 SUBMIT</button>
+            <button type="submit" class="submit-btn">送出邀請函 SUBMIT</button>
         </form>
         <div id="success-msg">感謝您的回覆！期待與您一同見證我們的喜悅。</div>
     </section>
 
     <script>
+        // 修正導航列點擊閃白與跳轉問題 (強制平滑滑動)
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // 阻止瀏覽器預設的瞬間跳轉行為
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
         // 表單提交狀態
         var submitted = false;
 
-        // 智能表單邏輯：參加人數 > 0 顯示飲食及兒童椅需求
-        const attendeesInput = document.getElementById('attendees');
+        // 智能表單邏輯：任一活動參加人數 > 0 顯示兒童椅需求
+        const welcomeAttendeesInput = document.getElementById('welcome-attendees');
+        const banquetAttendeesInput = document.getElementById('banquet-attendees');
         const conditionalFields = document.getElementById('conditional-fields');
         
-        attendeesInput.addEventListener('input', function() {
-            const count = parseInt(this.value);
-            if (count > 0) {
+        function checkAttendees() {
+            const welcomeCount = parseInt(welcomeAttendeesInput.value) || 0;
+            const banquetCount = parseInt(banquetAttendeesInput.value) || 0;
+            
+            if (welcomeCount > 0 || banquetCount > 0) {
                 conditionalFields.style.display = 'block';
             } else {
                 conditionalFields.style.display = 'none';
                 // 清空選項
-                document.querySelector('select[name="entry.267374631"]').selectedIndex = 0;
-                document.querySelector('select[name="entry.26716003"]').selectedIndex = 0;
+                document.querySelector('input[name="entry.26716003"]').value = '';
             }
-        });
+        }
+
+        welcomeAttendeesInput.addEventListener('input', checkAttendees);
+        banquetAttendeesInput.addEventListener('input', checkAttendees);
 
         // 倒數計時器邏輯
         const weddingDate = new Date('2026-11-20T12:00:00').getTime();
