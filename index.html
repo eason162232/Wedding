@@ -36,8 +36,8 @@
             background-color: var(--bg-light);
             line-height: 1.8;
             overflow-x: hidden;
-            /* 改回精緻直立式卡片寬度，保護直式照片不被裁切 */
-            max-width: 540px; 
+            /* 將寬度從 540px 放寬至 800px，完美兼顧手機版與電腦版網頁體驗 */
+            max-width: 800px; 
             margin: 0 auto;
             box-shadow: 0 0 40px rgba(0,0,0,0.06);
             position: relative;
@@ -54,7 +54,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            max-width: 540px;
+            max-width: 800px;
             margin: 0 auto;
             left: 0;
             right: 0; /* 配合 fixed 屬性置中 */
@@ -136,7 +136,7 @@
         /* 區塊通用 */
         section {
             padding: 5rem 2rem;
-            max-width: 540px;
+            max-width: 700px;
             margin: 0 auto;
         }
 
@@ -396,6 +396,21 @@
             margin-top: 1rem;
             font-weight: 600;
             letter-spacing: 1px;
+        }
+
+        /* 電腦版/平板優化 (寬度大於 768px 時觸發) */
+        @media (min-width: 768px) {
+            nav { gap: 4rem; }
+            nav a { font-size: 1.1rem; }
+            
+            .slogan { font-size: 2.2rem; }
+            .names { font-size: 6rem; }
+            
+            /* 表單稍微內縮置中，輸入框才不會拉得太長 */
+            #rsvp-form {
+                max-width: 500px;
+                margin: 0 auto;
+            }
         }
 
         /* 手機版優化 */
