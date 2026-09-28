@@ -6,7 +6,7 @@
     <title>Ben & Peggy Wedding</title>
     
     <!-- 優先預載入封面高畫質原圖，避免載入初期模糊 -->
-    <link rel="preload" as="image" href="https://i.postimg.cc/8k3dpLKp/389-RV2-6448.jpg">
+    <link rel="preload" as="image" href="https://i.postimg.cc/tTkRZ9b7/wei-ming-ming-she-ji-3.png">
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap');
@@ -36,8 +36,8 @@
             background-color: var(--bg-light);
             line-height: 1.8;
             overflow-x: hidden;
-            /* 恢復為 540px 的經典寬度，確保封面照片維持最清晰的高畫質 */
-            max-width: 540px; 
+            /* 調整為 768px 的適中寬度，完美適配新設計圖的比例 */
+            max-width: 768px; 
             margin: 0 auto;
             box-shadow: 0 0 40px rgba(0,0,0,0.06);
             position: relative;
@@ -54,7 +54,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            max-width: 540px;
+            max-width: 768px;
             margin: 0 auto;
             left: 0;
             right: 0; /* 配合 fixed 屬性置中 */
@@ -86,9 +86,9 @@
         header {
             height: 100vh;
             height: 100dvh; /* 採用動態視口高度，避免手機瀏覽器網址列遮擋 */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://i.postimg.cc/8k3dpLKp/389-RV2-6448.jpg');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://i.postimg.cc/tTkRZ9b7/wei-ming-ming-she-ji-3.png');
             background-size: cover;
-            background-position: center 20%; /* 重心稍微上移，確保直向圖片的人像頭部在各尺寸都不被裁切 */
+            background-position: center; /* 調整為正中央，以展現設計圖的最完整畫面 */
             background-repeat: no-repeat;
             
             /* 開啟硬體加速，讓瀏覽器使用更平滑優異的演算法來渲染放大的照片 */
