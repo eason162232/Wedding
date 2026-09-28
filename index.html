@@ -36,8 +36,8 @@
             background-color: var(--bg-light);
             line-height: 1.8;
             overflow-x: hidden;
-            /* 將寬度從 540px 放寬至 800px，完美兼顧手機版與電腦版網頁體驗 */
-            max-width: 800px; 
+            /* 恢復為 540px 的經典寬度，確保封面照片維持最清晰的高畫質 */
+            max-width: 540px; 
             margin: 0 auto;
             box-shadow: 0 0 40px rgba(0,0,0,0.06);
             position: relative;
@@ -54,7 +54,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            max-width: 800px;
+            max-width: 540px;
             margin: 0 auto;
             left: 0;
             right: 0; /* 配合 fixed 屬性置中 */
@@ -90,8 +90,11 @@
             background-size: cover;
             background-position: center 20%; /* 重心稍微上移，確保直向圖片的人像頭部在各尺寸都不被裁切 */
             background-repeat: no-repeat;
-            image-rendering: high-quality; /* 強制瀏覽器使用高畫質演算法渲染縮放圖片 */
-            -webkit-image-rendering: high-quality;
+            
+            /* 開啟硬體加速，讓瀏覽器使用更平滑優異的演算法來渲染放大的照片 */
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -398,17 +401,17 @@
             letter-spacing: 1px;
         }
 
-        /* 電腦版/平板優化 (寬度大於 768px 時觸發) */
+        /* 電腦版/平板優化 (配合 540px 幅寬進行視覺微調) */
         @media (min-width: 768px) {
-            nav { gap: 4rem; }
+            nav { gap: 3rem; }
             nav a { font-size: 1.1rem; }
             
-            .slogan { font-size: 2.2rem; }
-            .names { font-size: 6rem; }
+            .slogan { font-size: 2rem; }
+            .names { font-size: 5rem; }
             
-            /* 表單稍微內縮置中，輸入框才不會拉得太長 */
+            /* 表單內縮置中 */
             #rsvp-form {
-                max-width: 500px;
+                max-width: 450px;
                 margin: 0 auto;
             }
         }
